@@ -1,0 +1,16 @@
+.Preview{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+    
+    width: 100%;
+    height: 30%;
+  
+    background: #FFFFFF;
+    border-radius: 50px;
+  
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+  }

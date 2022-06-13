@@ -1,0 +1,16 @@
+.Video{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+    gap: 26.66px;
+    width: 100%;
+    height: 70%;
+  
+    background: #FFFFFF;
+    border-radius: 50px;
+  
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+  }
