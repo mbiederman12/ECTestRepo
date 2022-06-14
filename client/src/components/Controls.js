@@ -1,5 +1,5 @@
 import React from 'react'
-import './Controls.css';
+import '../style/Controls.css';
 
 function ControlsPage(){
     return(

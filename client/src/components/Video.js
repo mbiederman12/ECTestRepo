@@ -1,5 +1,5 @@
 import React from 'react'
-import './Video.css';
+import '../style/Video.css';
 
 function VideoPage(){
     return(
