@@ -37,13 +37,12 @@ app.get('/', (req, res) => {
     // Renders Views (Sends HTML to client) + pass in variables: apiKey, sessionId, token
     var data = [
     {
-        id:"1",
         apiKey: apiKey,
         sessionId: sessionId,
         token: token
     }
 ]
-    res.json({"variables": ["userOne","userTwo", "userThree"]})
+    res.json(data)
   });
 
 

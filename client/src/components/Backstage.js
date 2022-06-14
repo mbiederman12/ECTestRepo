@@ -1,8 +1,12 @@
 import React,{ useEffect, useState} from "react";
-
 import '../style/Backstage.css'
+
+var apiKey;
+var sessionId;
+var token;
+
 function BackstagePage(){
-    const [data, setData] = useState(null);
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -35,14 +39,11 @@ function BackstagePage(){
             {error && (
                 <div>{`There is a problem fetching the post data - ${error}`}</div>
             )}
-            <ul>
-                {data &&
-                data.map(({ id, title }) => (
-                    <li key={id}>
-                    <h3>{title}</h3>
-                    </li>
-                ))}
-            </ul>
+            {data && (
+                apiKey = data.apiKey,
+                sessionId = data.sessionId,
+                token = data.token
+            )}
         </div>
     );
 }
