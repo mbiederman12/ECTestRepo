@@ -28,21 +28,14 @@ opentok.createSession({mediaMode:"routed"},function (err, session) {
     });
 });
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
     var sessionId = app.get('sessionId');
   
     // Generate a Token from the sessionId
     var token = opentok.generateToken(sessionId);
   
     // Renders Views (Sends HTML to client) + pass in variables: apiKey, sessionId, token
-    var data = [
-    {
-        apiKey: apiKey,
-        sessionId: sessionId,
-        token: token
-    }
-]
-    res.json(data)
+    res.json({apiKey:apiKey, sessionId:sessionId, token:token});
   });
 
 
