@@ -1,15 +1,13 @@
 import './style/App.css';
-import BackstagePage from './components/Backstage'
-import ControlsPage from './components/Controls'
-import PreviewPage from './components/Preview'
-import VideoPage from './components/Video'
-
+import BackstagePage from './Backstage'
+import ControlsPage from './Controls'
+import PreviewPage from './Preview'
+import VideoPage from './Video'
+import Stream from './Stream';
 
 function App() {
-
   return <div className="App"> 
     <div className="Column1">
-    
       <VideoPage />
       <BackstagePage />
     </div>

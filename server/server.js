@@ -12,12 +12,6 @@ const sessionId = "2_MX40NzUxMjczMX5-MTY1NTIyNTgzNjIwNn5jZEIzeTNocC9MMS82dmxMNFB
 var opentok = new OpenTok(apiKey, apiSecret);
 
 
-/*app.use(express.static(__dirname + '/public')); 
-
-app.use(express.urlencoded({
-  extended: true
-}))*/
-
 // Create Session + Store in Express App
 opentok.createSession({mediaMode:"routed"},function (err, session) {
     if (err) return console.log(err);

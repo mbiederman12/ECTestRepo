@@ -1,17 +1,30 @@
 .Backstage{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   
-    
-    width: 100%;
-    height: 30%;
+  width: 100%;
+  height: 30%;
+
+  background: #FFFFFF;
+  border-radius: 50px;
+
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+.OT_subscriber {
+    float: left;
+    margin-left: 1em;
+}
+.OT_publisher {
+    float: left;
+}
+.error {
+    color: red;
+}
+
   
-    background: #FFFFFF;
-    border-radius: 50px;
-  
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-  }
-  
+
