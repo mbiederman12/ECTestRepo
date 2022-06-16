@@ -3,7 +3,7 @@ import BackstagePage from './Backstage'
 import ControlsPage from './Controls'
 import PreviewPage from './Preview'
 import VideoPage from './Video'
-import Stream from './Stream';
+
 
 function App() {
   return <div className="App"> 

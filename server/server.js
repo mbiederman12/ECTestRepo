@@ -6,7 +6,6 @@ const OpenTok = require('opentok');
 // My Project API info
 const apiKey = "47512731";
 const apiSecret = "8f9b78016ed88cf975be776f89e280a89dd8eccd";
-const sessionId = "2_MX40NzUxMjczMX5-MTY1NTIyNTgzNjIwNn5jZEIzeTNocC9MMS82dmxMNFBITWR3dUh-fg";
 
 // Create new instance 
 var opentok = new OpenTok(apiKey, apiSecret);
@@ -32,4 +31,33 @@ app.get('/api', (req, res) => {
     res.json({apiKey:apiKey, sessionId:sessionId, token:token});
   });
 
+  app.post('/start', function(req, res){
+
+    var archiveName = req.body.archiveName;
+    
+    opentok.startArchive(app.get('sessionId'), { name: archiveName }, function (
+      err,
+      archive
+    ) {
+      if (err) {
+        return console.log(err);
+      } else {
+      
+        console.log("new archive:" + archive.id);
+        app.set('archiveId', archive.id);
+      }
+    });
+
+    
+  })
+  
+  app.post('/stop', function(req, res){
+    opentok.stopArchive(app.get('archiveId'), function (err, archive) {
+      if (err) return console.log(err);
+    
+      console.log("Stopped archive:" + archive.id);
+    });
+    
+  })
+  
 
