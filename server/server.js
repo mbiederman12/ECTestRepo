@@ -32,10 +32,9 @@ app.get('/api', (req, res) => {
   });
 
   app.post('/start', function(req, res){
-
-    var archiveName = req.body.archiveName;
     
-    opentok.startArchive(app.get('sessionId'), { name: archiveName }, function (
+
+    opentok.startArchive(app.get('sessionId'), function (
       err,
       archive
     ) {
@@ -47,17 +46,38 @@ app.get('/api', (req, res) => {
         app.set('archiveId', archive.id);
       }
     });
+    res.redirect('http://localhost:3000/')
 
     
   })
   
   app.post('/stop', function(req, res){
+
     opentok.stopArchive(app.get('archiveId'), function (err, archive) {
       if (err) return console.log(err);
     
       console.log("Stopped archive:" + archive.id);
     });
-    
+
+    res.redirect('http://localhost:3000/')
   })
   
 
+  app.get('/listarchives', (req, res)=>{
+    opentok.listArchives( function (
+      error,
+      archives,
+      totalCount
+    ) {
+      if (error) return console.log("error:", error);
+    
+      console.log(totalCount + " archives");
+  
+      for (var i = 0; i < archives.length; i++) {
+        
+        console.log(archives[i].id);
+        
+      }
+      res.json(archives);
+    });
+  });

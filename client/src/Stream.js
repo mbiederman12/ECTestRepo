@@ -7,7 +7,12 @@ export default class Stream extends React.Component {
   componentDidMount(){
     fetch("/api")
       .then((res) => res.json())
-      .then((data) => this.setState({apiKey:data.apiKey, sessionId:data.sessionId, token:data.token}));
+      .then((data) => this.setState({apiKey:data.apiKey, sessionId:data.sessionId, token:data.token}))
+      .catch((err) => {
+        console.error('Failed to get session creddentials', err);
+        alert('Failed to get opentok sessionId and token');
+      });
+      
   }
   
   constructor(props) {

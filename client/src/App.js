@@ -1,22 +1,24 @@
-import './style/App.css';
-import BackstagePage from './Backstage'
-import ControlsPage from './Controls'
-import PreviewPage from './Preview'
-import VideoPage from './Video'
+import React from 'react';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
 
+//Pages
+import MainPage from "./pages/MainPage";
+import ArchivePage from './pages/ArchivePage';
 
-function App() {
-  return <div className="App"> 
-    <div className="Column1">
-      <VideoPage />
-      <BackstagePage />
-    </div>
-
-    <div className = "Column2">
-      <ControlsPage />
-      <PreviewPage /> 
-    </div>
-  </div>;
+function App(){
+    return (
+      
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainPage/>} />
+        <Route path="/listarchives/" element={<ArchivePage/>} />
+        </Routes>
+      </BrowserRouter>
+    );
 }
 
 export default App;
