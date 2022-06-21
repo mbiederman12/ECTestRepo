@@ -99,6 +99,7 @@ export default class Stream extends React.Component {
 
 
 
+
   render(){
     
     const { apiKey, sessionId, token, publishVideo } = this.state;
