@@ -38,9 +38,10 @@ app.get('/api', (req, res) => {
     res.json({apiKey:apiKey, sessionId:sessionId, token:token});
   });
 
-  app.post('/start', function(req, res){
-    
 
+  // ARCHIVE SERVER CONTROLS
+  app.post('/start', function(req, res){
+  
     opentok.startArchive(app.get('sessionId'), function (
       err,
       archive
@@ -54,22 +55,18 @@ app.get('/api', (req, res) => {
       }
     });
     res.redirect('http://localhost:3000/')
-
-    
   })
   
   app.post('/stop', function(req, res){
 
     opentok.stopArchive(app.get('archiveId'), function (err, archive) {
       if (err) return console.log(err);
-    
       console.log("Stopped archive:" + archive.id);
     });
 
     res.redirect('http://localhost:3000/')
   })
   
-
   app.get('/listarchives', (req, res)=>{
     opentok.listArchives( function (
       error,
@@ -80,6 +77,9 @@ app.get('/api', (req, res) => {
     });
   });
 
+
+
+// EXPERIENCE COMPOSER SERVER CONTROLS
 app.get('/startEC', (req, res)=>{
   console.log(app.get('sessionId'));
 
