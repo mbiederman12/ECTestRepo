@@ -81,6 +81,7 @@ app.get('/api', (req, res) => {
 
 // EXPERIENCE COMPOSER SERVER CONTROLS
 app.get('/startEC', (req, res)=>{
+  var ECID = '';
   console.log(app.get('sessionId'));
 
   const data = JSON.stringify({
@@ -105,14 +106,20 @@ app.get('/startEC', (req, res)=>{
     },
   };
 
+  var body =[];
   const request = https.request(options, response => {
-    console.log(`statusCode: ${response.statusCode}`);
 
-    response.on('data', d => {
-      process.stdout.write(d);
-    });
-    response.on('end', () => {
-      console.log('No more data in response.');
+    
+    response.on('data', (chunk) => {
+      body.push(chunk);
+    }).on('end', () => {
+      body = Buffer.concat(body).toString();
+      console.log(body);
+      // at this point, `body` has the entire request body stored in it as a string
+      var InfoObj = JSON.parse(body);
+      ECID = InfoObj.id;
+      console.log(ECID);
+      app.set('experienceComposerId', ECID);
     });
   });
 
@@ -121,8 +128,8 @@ app.get('/startEC', (req, res)=>{
   });
   
   request.write(data);
- 
   request.end();
+  
   res.redirect('http://localhost:3000/');
   
   
@@ -130,11 +137,25 @@ app.get('/startEC', (req, res)=>{
 });
 
 app.get('/stopEC', (req, res)=>{
+  var experienceComposerId = '';
+  experienceComposerId = app.get('experienceComposerId')
+  console.log('ECID:    ');
+  console.log(experienceComposerId);
 
+  const data = JSON.stringify({
+    "sessionId": (app.get('sessionId')),
+    "token": (app.get('token')),
+    "url": "https://www.youtube.com/watch?v=yjki-9Pthh0",
+    "maxDuration": 1800,
+    "resolution": "1280x720",
+    "properties": {
+      "name": "Composed stream for Live event #1"
+    }
+});
   const options = {
     hostname: 'api.opentok.com',
     port: 443,
-    path: `/v2/project/47525941/render/${app.get('experienceComposerId')}/`,
+    path: `/v2/project/47525941/render/` + String(experienceComposerId),
     method: 'DELETE',
     headers: {
       'X-OPENTOK-AUTH':(projectJWT),
