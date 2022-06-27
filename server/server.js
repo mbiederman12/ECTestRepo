@@ -3,7 +3,7 @@ const app = express()
 const res = require('express/lib/response');
 const OpenTok = require('opentok');
 const https = require('https');
-const { accountToken, generateToken, projectToken, verify } = require('opentok-jwt');
+const { projectToken } = require('opentok-jwt');
 
 
 // My Project API info
@@ -27,11 +27,21 @@ opentok.createSession({mediaMode:"routed"},function (err, session) {
     });
 });
 
+app.get('/',(req,res) =>{
+  opentok.createSession;
+  res.redirect('http://localhost:3000/');
+});
+
+
 app.get('/api', (req, res) => {
     var sessionId = app.get('sessionId');
-  
+
+    var option ={
+      expireTime: new Date().getTime() / 1000 + 7 *24*60*60,
+    };
+
     // Generate a Token from the sessionId
-    var token = opentok.generateToken(sessionId);
+    var token = opentok.generateToken(sessionId, option);
     app.set('token', token);
 
     // Renders Views (Sends HTML to client) + pass in variables: apiKey, sessionId, token

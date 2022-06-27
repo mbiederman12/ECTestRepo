@@ -1,5 +1,5 @@
 import React from 'react';
-import './style/Backstage.css'
+import './style/Video.css'
 import { OTSession, OTPublisher, OTStreams, OTSubscriber } from 'opentok-react';
 
 
@@ -105,9 +105,9 @@ export default class Stream extends React.Component {
     const { apiKey, sessionId, token, publishVideo } = this.state;
     //alert(apiKey);
     return(
-      <div>
+      <div className='Video'>
         {apiKey !== "" && sessionId !== "" && token !== "" && 
-
+          
           <OTSession
             apiKey={apiKey}
             sessionId={sessionId}
@@ -122,22 +122,24 @@ export default class Stream extends React.Component {
                 onError={this.onPublishError}
                 eventHandlers={this.publisherEventHandlers}
               />
-              <button id="videoButton" onClick={this.toggleVideo}>
-                  {publishVideo ? 'Disable' : 'Enable'} Video
-              </button>
-              
+              <div className='videoButton'>
+                <button id="videoButton" onClick={this.toggleVideo}>
+                {publishVideo ? 'Disable' : 'Enable'} Video
+                </button>
+              </div>
             </div>
-            
+            <div className='OT_subscriber'>
             <OTStreams>
               
               <OTSubscriber
-                properties={{ width: 150, height: 120 }}
+                properties={{ width: 700, height: 550 }}
                 onSubscribe={this.onSubscribe}
                 onError={this.onSubscribeError}
                 eventHandlers={this.subscriberEventHandlers}
               />
               
             </OTStreams>
+            </div>
 
           </OTSession>
         }
