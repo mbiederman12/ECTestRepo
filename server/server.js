@@ -1,71 +1,76 @@
-const express = require('express')
-const app = express()
-const res = require('express/lib/response');
-const OpenTok = require('opentok');
 const https = require('https');
+const express = require('express')
+const bodyParser = require('body-parser');
+const cors = require("cors");
+const OpenTok = require('opentok');
 const { projectToken } = require('opentok-jwt');
 
+// Create Express App
+const app = express()
 
-// My Project API info
+// Project API INFO
 const apiKey = "47525941";
 const apiSecret = "09af2fe51e43af6d2a88cec485dcd01c40039991";
 
+// create JWT using opentok-jwt sdk to create a token for the header X-OPENTOK-AUTH in https request
 const projectJWT = projectToken(apiKey, apiSecret);
-//const accountJWT = accountToken(apiKey, apiSecret);
 
-// Create new instance 
+// Create new instance of OT
 var opentok = new OpenTok(apiKey, apiSecret);
 
-//app.use(express.json());
-// Create Session + Store in Express App
+app.use(cors());
+app.use(bodyParser.json())
+
+// Create Session + Store SessionID in Express App
 opentok.createSession({mediaMode:"routed"},function (err, session) {
-    if (err) return console.log(err);
-    app.set('sessionId', session.sessionId);
-    
-    app.listen(3001, function () {
-      console.log('Server listening on PORT 3001');
-    });
-});
-
-app.get('/',(req,res) =>{
-  opentok.createSession;
-  res.redirect('http://localhost:3000/');
-});
-
-
-app.get('/api', (req, res) => {
-    var sessionId = app.get('sessionId');
-
-    var option ={
-      expireTime: new Date().getTime() / 1000 + 7 *24*60*60,
-    };
-
-    // Generate a Token from the sessionId
-    var token = opentok.generateToken(sessionId, option);
-    app.set('token', token);
-
-    // Renders Views (Sends HTML to client) + pass in variables: apiKey, sessionId, token
-    res.json({apiKey:apiKey, sessionId:sessionId, token:token});
-  });
-
-
-  // ARCHIVE SERVER CONTROLS
-  app.post('/start', function(req, res){
+  if (err) return console.log(err);
+  app.set('sessionId', session.sessionId);
   
-    opentok.startArchive(app.get('sessionId'), function (
-      err,
-      archive
-    ) {
-      if (err) {
-        return console.log(err);
-      } else {
-      
-        console.log("new archive:" + archive.id);
-        app.set('archiveId', archive.id);
-      }
-    });
-    res.redirect('http://localhost:3000/')
-  })
+  app.listen(3001, function () {
+    console.log('Server listening on PORT 3001');
+  });
+});
+
+// GET request made from client to server to retrieve apiKey, sessionId, and token data
+app.get('/api', (req, res) => {
+  var sessionId = app.get('sessionId');
+
+  var option ={
+    expireTime: new Date().getTime() / 1000 + 7 * 24 * 60 * 60,
+  };
+
+  // Generate a Token from the sessionId (options expireTime allows the token to be accessable for a week)
+  var token = opentok.generateToken(sessionId, option);
+  app.set('token', token);
+
+  res.json({apiKey:apiKey, sessionId:sessionId, token:token});
+});
+
+// Retrieve EC ID URL from submission box in Controls Client side
+app.post('/store-data',(req, res) => {
+  let data = {name: req.body.name};
+  console.log(data.name);
+});
+   
+
+// ARCHIVE SERVER CONTROLS
+
+app.post('/start', function(req, res){
+
+  opentok.startArchive(app.get('sessionId'), function (
+    err,
+    archive
+  ) {
+    if (err) {
+      return console.log(err);
+    } else {
+    
+      console.log("new archive:" + archive.id);
+      app.set('archiveId', archive.id);
+    }
+  });
+  res.redirect('http://localhost:3000/')
+})
   
   app.post('/stop', function(req, res){
 
@@ -90,6 +95,7 @@ app.get('/api', (req, res) => {
 
 
 // EXPERIENCE COMPOSER SERVER CONTROLS
+
 app.get('/startEC', (req, res)=>{
   var ECID = '';
   console.log(app.get('sessionId'));

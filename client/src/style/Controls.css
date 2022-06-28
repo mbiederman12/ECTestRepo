@@ -1,7 +1,7 @@
 .Controls{
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: left;
     padding: 0px;
     gap: 26.66px;
     width: 100%;

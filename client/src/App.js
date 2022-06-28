@@ -5,10 +5,11 @@ import {
   Route,
 } from "react-router-dom";
 
-//Pages
+// PAGES: 
 import MainPage from "./pages/MainPage";
 import ArchivePage from './pages/ArchivePage';
 
+// Application will start in the Main page, when View Past Archives button is pressed, this will route to the /listarchives page
 function App(){
     return (
       

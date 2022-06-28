@@ -1,5 +1,5 @@
 import React from 'react'
-import './style/Controls.css';
+import '../style/Controls.css';
 import ControlsClass from './ControlsClass';
 
 

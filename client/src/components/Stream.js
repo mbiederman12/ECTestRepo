@@ -1,5 +1,5 @@
 import React from 'react';
-import './style/Video.css'
+import '../style/Video.css'
 import { OTSession, OTPublisher, OTStreams, OTSubscriber } from 'opentok-react';
 
 
