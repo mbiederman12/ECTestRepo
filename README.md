@@ -1,6 +1,6 @@
 # Experience Composer Gamer Stream Sample Web Application
 
-This application utalizes Vonage's Experience Composer in order to view a game stream/website with player/user acting as the publisher and the experience composer stream acting as the subscriber to the session. Lastly this application will create another Experience Composer recording the screen of the webapplication which can be used to archive the screen.
+This application utilizes Vonage's Experience Composer in order to view a game stream/website with player/user acting as the publisher and the experience composer stream acting as the subscriber to the session. Lastly this application will create another Experience Composer recording the screen of the web application which can be used to archive the screen.
 
 ## Preview
 
