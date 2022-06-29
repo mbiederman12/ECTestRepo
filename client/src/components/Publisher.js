@@ -1,11 +1,11 @@
 import React from 'react';
-import '../style/Backstage.css'
-import { OTPublisher } from 'opentok-react';
+import '../style/Video.css'
+import { OTPublisher, OTSession } from 'opentok-react';
 
 
 export default class Publisher extends React.Component {
   componentDidMount(){
-    fetch("/api")
+    fetch("/createnewsession")
       .then((res) => res.json())
       .then((data) => this.setState({apiKey:data.apiKey, sessionId:data.sessionId, token:data.token}))
       .catch((err) => {
@@ -66,9 +66,15 @@ render() {
 
     return (
       
-      <div>
+      <div className="Video">
         {apiKey !== "" && sessionId !== "" && token !== "" && 
-
+          <OTSession
+          apiKey={apiKey}
+          sessionId={sessionId}
+          token={token}
+          onError={this.onSessionError}
+          eventHandlers={this.sessionEventHandlers}
+        >
         <div className='OT_publisher'>
         <OTPublisher
           properties={{ publishVideo, width:150,height:120 }}
@@ -82,6 +88,7 @@ render() {
         </button>
         
         </div>
+        </OTSession>
         }
       </div>
         

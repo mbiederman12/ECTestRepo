@@ -1,16 +1,15 @@
 import React from 'react';
-import '../style/Backstage.css'
-import { OTSubscriber } from 'opentok-react';
+import '../style/Video.css'
+import { OTSubscriber, OTSession, OTStreams } from 'opentok-react';
 
 
 export default class Subscriber extends React.Component {
   componentDidMount(){
-    fetch("/api")
+    fetch("/createnewsession")
       .then((res) => res.json())
       .then((data) => this.setState({apiKey:data.apiKey, sessionId:data.sessionId, token:data.token}))
       .catch((err) => {
         console.error('Failed to get session creddentials', err);
-        alert('Failed to get opentok sessionId and token');
       });
       
   }
@@ -62,19 +61,29 @@ render() {
 
     return (
       
-      <div>
+      <div className='Video'>
         {apiKey !== "" && sessionId !== "" && token !== "" && 
-
-        <div className='OT_publisher'>
-        <OTSubscriber
-                properties={{ width: 150, height: 120 }}
+        <OTSession
+            apiKey={apiKey}
+            sessionId={sessionId}
+            token={token}
+            onError={this.onSessionError}
+            eventHandlers={this.sessionEventHandlers}
+          >
+            <div className='OT_subscriber'>
+            <OTStreams>
+              
+              <OTSubscriber
+                properties={{ width: 700, height: 550 }}
                 onSubscribe={this.onSubscribe}
                 onError={this.onSubscribeError}
                 eventHandlers={this.subscriberEventHandlers}
               />
-    
+              
+            </OTStreams>
+            </div>
 
-        </div>
+          </OTSession>
         }
       </div>
         
