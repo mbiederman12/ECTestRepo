@@ -132,7 +132,7 @@ export default class Stream extends React.Component {
             <OTStreams>
               
               <OTSubscriber
-                properties={{ width: 700, height: 550 }}
+                properties={{ width: 1100, height: 600 }}
                 onSubscribe={this.onSubscribe}
                 onError={this.onSubscribeError}
                 eventHandlers={this.subscriberEventHandlers}

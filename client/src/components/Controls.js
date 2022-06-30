@@ -7,7 +7,7 @@ import ControlsClass from './ControlsClass';
 function ControlsPage(){
     return(
         <div className="Controls">
-            <h4>CONTROLS</h4>
+            <h2>CONTROLS</h2>
             <ControlsClass />
         </div>
     );

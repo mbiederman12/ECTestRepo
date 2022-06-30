@@ -1,5 +1,6 @@
 const https = require('https');
-const express = require('express')
+const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const OpenTok = require('opentok');
@@ -21,13 +22,14 @@ var opentok = new OpenTok(apiKey, apiSecret);
 
 app.use(cors());
 app.use(bodyParser.json())
+app.use(express.static(path.join(__dirname+"/public")))
 
 // Create Session + Store SessionID in Express App
 opentok.createSession({mediaMode:"routed"},function (err, session) {
   if (err) return console.log(err);
   app.set('sessionId', session.sessionId);
   
-  app.listen(3001, function () {
+  app.listen(process.env.PORT || 3001, function () {
     console.log('Server listening on PORT 3001');
   });
 });
@@ -47,149 +49,10 @@ app.get('/api', (req, res) => {
   res.json({apiKey:apiKey, sessionId:sessionId, token:token});
 });
 
-app.get('/createnewsession', (req, res) => {
-  opentok.createSession({mediaMode:"routed"},function (err, session) {
-    if (err) return console.log(err);
-    app.set('sessionIdNew', session.sessionId);
-    
-    app.listen(3001, function () {
-      console.log('Server listening on PORT 3001');
-    });
-  });
-  var sessionIdNew = app.get('sessionIdNew');
-  var option ={
-    expireTime: new Date().getTime() / 1000 + 7 * 24 * 60 * 60,
-  };
-
-  // Generate a Token from the sessionId (options expireTime allows the token to be accessable for a week)
-  var tokenNew = opentok.generateToken(sessionId, option);
-  app.set('token', token);
-
-  res.json({apiKey:apiKey, sessionId:sessionIdNew, token:tokenNew});
-});
-
-// Retrieve EC ID URL from submission box in Controls Client side
-app.post('/store-data',(req, res) => {
-  let ECID= req.body.ecidURL;
-  console.log(ECID)
-
-  console.log(app.get('sessionId'));
-
-  const data = JSON.stringify({
-      "sessionId": (app.get('sessionId')),
-      "token": (app.get('token')),
-      "url": (ECID),
-      "maxDuration": 1800,
-      "resolution": "1280x720",
-      "properties": {
-        "name": "Live Stream"
-      }
-  });
-
-  const options = {
-    hostname: 'api.opentok.com',
-    port: 443,
-    path: '/v2/project/47525941/render',
-    method: 'POST',
-    headers: {
-      'X-OPENTOK-AUTH':(projectJWT),
-      'Content-Type': 'application/json'
-    },
-  };
-
-  var body =[];
-  const request = https.request(options, response => {
-
-    
-    response.on('data', (chunk) => {
-      body.push(chunk);
-    }).on('end', () => {
-      body = Buffer.concat(body).toString();
-      console.log(body);
-      // at this point, `body` has the entire request body stored in it as a string
-      var InfoObj = JSON.parse(body);
-      ECID = InfoObj.id;
-      console.log(ECID);
-      app.set('experienceComposerId', ECID);
-    });
-  });
-
-  request.on('error', error => {
-    console.error(error);
-  });
-  
-  request.write(data);
-  request.end();
-  
-  res.redirect('http://localhost:3000/');
-  
-  
-
-});
-
-app.post('/store-new-data',(req, res) => {
-  let ECID= req.body.ecidURL;
-  console.log(ECID)
-
-  console.log(app.get('sessionIdNew'));
-
-  const data = JSON.stringify({
-      "sessionId": (app.get('sessionIdNew')),
-      "token": (app.get('tokenNew')),
-      "url": (ECID),
-      "maxDuration": 1800,
-      "resolution": "1280x720",
-      "properties": {
-        "name": "Live Stream"
-      }
-  });
-
-  const options = {
-    hostname: 'api.opentok.com',
-    port: 443,
-    path: '/v2/project/47525941/render',
-    method: 'POST',
-    headers: {
-      'X-OPENTOK-AUTH':(projectJWT),
-      'Content-Type': 'application/json'
-    },
-  };
-
-  var body =[];
-  const request = https.request(options, response => {
-
-    
-    response.on('data', (chunk) => {
-      body.push(chunk);
-    }).on('end', () => {
-      body = Buffer.concat(body).toString();
-      console.log(body);
-      // at this point, `body` has the entire request body stored in it as a string
-      var InfoObj = JSON.parse(body);
-      ECID = InfoObj.id;
-      console.log(ECID);
-      app.set('experienceComposerId', ECID);
-    });
-  });
-
-  request.on('error', error => {
-    console.error(error);
-  });
-  
-  request.write(data);
-  request.end();
-  
-  res.redirect('http://localhost:3000/');
-  
-  
-
-});
-   
 
 // ARCHIVE SERVER CONTROLS
-
+// Start Archiving current session
 app.post('/start', function(req, res){
-
   opentok.startArchive(app.get('sessionId'), function (
     err,
     archive
@@ -197,80 +60,48 @@ app.post('/start', function(req, res){
     if (err) {
       return console.log(err);
     } else {
-    
       console.log("new archive:" + archive.id);
       app.set('archiveId', archive.id);
     }
   });
   res.redirect('http://localhost:3000/')
 })
-  
-  app.post('/stop', function(req, res){
 
-    opentok.stopArchive(app.get('archiveId'), function (err, archive) {
-      if (err) return console.log(err);
-      console.log("Stopped archive:" + archive.id);
-    });
-
-    res.redirect('http://localhost:3000/')
-  })
-
-  app.post('/startnew', function(req, res){
-
-    opentok.startArchive(app.get('sessionIdNew'), function (
-      err,
-      archive
-    ) {
-      if (err) {
-        return console.log(err);
-      } else {
-      
-        console.log("new archive:" + archive.id);
-        app.set('archiveIdNew', archive.id);
-      }
-    });
-    res.redirect('http://localhost:3000/newsessionpage')
-  })
-    
-  app.post('/stopnew', function(req, res){
-
-    opentok.stopArchive(app.get('archiveIdNew'), function (err, archive) {
-      if (err) return console.log(err);
-      console.log("Stopped archive:" + archive.id);
-    });
-
-    res.redirect('http://localhost:3000/newsessionpage')
-  })
-
-
-
-  
-  app.get('/listarchives', (req, res)=>{
-    opentok.listArchives( function (
-      error,
-      archives,
-      totalCount
-    ) {
-      res.json(archives);
-    });
+// Stop Archiving current session
+app.post('/stop', function(req, res){
+  opentok.stopArchive(app.get('archiveId'), function (err, archive) {
+    if (err) return console.log(err);
+    console.log("Stopped archive:" + archive.id);
   });
+  res.redirect('http://localhost:3000/')
+})
+
+// Send list of archives with archive data to client
+app.get('/listarchives', (req, res)=>{
+  opentok.listArchives( function (
+    error,
+    archives,
+    totalCount
+  ) {
+    res.json(archives);
+  });
+});
 
 
 
 // EXPERIENCE COMPOSER SERVER CONTROLS
-
-app.get('/startEC', (req, res)=>{
-  var ECID = '';
-  console.log(app.get('sessionId'));
+// Retrieve EC ID URL from submission box in Controls Client side
+app.post('/store-data',(req, res) => {
+  let ECID= req.body.ecidURL;
 
   const data = JSON.stringify({
       "sessionId": (app.get('sessionId')),
       "token": (app.get('token')),
-      "url": "https://www.youtube.com/watch?v=yjki-9Pthh0",
+      "url": (ECID),
       "maxDuration": 1800,
       "resolution": "1280x720",
       "properties": {
-        "name": "Composed stream for Live event #1"
+        "name": "Live Stream"
       }
   });
 
@@ -287,14 +118,11 @@ app.get('/startEC', (req, res)=>{
 
   var body =[];
   const request = https.request(options, response => {
-
-    
     response.on('data', (chunk) => {
       body.push(chunk);
     }).on('end', () => {
       body = Buffer.concat(body).toString();
       console.log(body);
-      // at this point, `body` has the entire request body stored in it as a string
       var InfoObj = JSON.parse(body);
       ECID = InfoObj.id;
       console.log(ECID);
@@ -310,9 +138,6 @@ app.get('/startEC', (req, res)=>{
   request.end();
   
   res.redirect('http://localhost:3000/');
-  
-  
-  
 });
 
 app.get('/stopEC', (req, res)=>{
@@ -324,12 +149,6 @@ app.get('/stopEC', (req, res)=>{
   const data = JSON.stringify({
     "sessionId": (app.get('sessionId')),
     "token": (app.get('token')),
-    "url": "https://www.youtube.com/watch?v=yjki-9Pthh0",
-    "maxDuration": 1800,
-    "resolution": "1280x720",
-    "properties": {
-      "name": "Composed stream for Live event #1"
-    }
 });
   const options = {
     hostname: 'api.opentok.com',

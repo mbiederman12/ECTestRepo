@@ -7,7 +7,7 @@ export default class VideoPage extends React.Component {
     render(){
         return(
             <div className="Video">
-                <h3> VIDEO </h3>
+                <h2> VIDEO </h2>
                 <Stream />
                
             </div>
