@@ -32,11 +32,11 @@ export default class ControlsClass extends React.Component {
           <div>
               <h3>Archiving Features</h3>
                 <form action="http://localhost:3001/start" method ="POST">
-                    <input type="submit" value="Start Archiving"></input>
+                    <input type="submit" value="Start Archiving Session"></input>
                 </form>
                 <p></p>
                 <form action="http://localhost:3001/stop" method="POST">
-                    <input type="submit" value="Stop Archiving"></input>
+                    <input type="submit" value="Stop Archiving Session"></input>
                 </form>
                 <p></p>
                 <form action="http://localhost:3000/listarchives" method = 'GET'>
@@ -46,7 +46,7 @@ export default class ControlsClass extends React.Component {
                 <h3>Experience Composer</h3>
                 <form onSubmit={this.handleSubmit}>
                     <label>
-                    Start EC:
+                    Start EC: 
                     <input type="text" value={this.state.value} placeholder = "Enter URL Here:" id='ecidURL' name="ecidURL" onChange={this.handleChange} />
                     </label>
                     <input type="submit" value="Submit" />
@@ -54,6 +54,14 @@ export default class ControlsClass extends React.Component {
                 <p></p>
                 <form action="http://localhost:3001/stopEC" method = 'GET'>
                     <input type="submit" value="Stop EC"></input>
+                </form>
+                <p></p>
+                <form action="http://localhost:3001/startArchivingEC" method ="POST">
+                    <input type="submit" value="Start Archiving EC"></input>
+                </form>
+                <p></p>
+                <form action="http://localhost:3001/stopArchivingEC" method="POST">
+                    <input type="submit" value="Stop Archiving EC"></input>
                 </form>
           </div>
         );
