@@ -8,8 +8,8 @@ const { projectToken } = require('opentok-jwt');
 
 // Create Express App
 const app = express()
-
-var host_link = "https://a31c-69-181-213-108.ngrok.io/";
+//var host_link = 'https://gamerecsampleapp.herokuapp.com/';
+var host_link = "https://9f1f-69-181-213-108.ngrok.io";
 // Project API INFO
 const apiKey = "47525941";
 const apiSecret = "09af2fe51e43af6d2a88cec485dcd01c40039991";
@@ -193,7 +193,7 @@ app.post('/startArchivingEC', function(req, res){
   const data = JSON.stringify({
       "sessionId": (app.get('sessionId2')),
       "token": (app.get('token2')),
-      "url": "https://a31c-69-181-213-108.ngrok.io",
+      "url": (host_link),
       "maxDuration": 1800,
       "resolution": "1280x720",
       "properties": {
@@ -232,18 +232,19 @@ app.post('/startArchivingEC', function(req, res){
   
   request.write(data);
   request.end();
-
-  opentok.startArchive(app.get('sessionId2'), function (
-    err,
-    archive
-  ) {
-    if (err) {
-      return console.log(err);
-    } else {
-      console.log("new archive:" + archive.id);
-      app.set('archiveId2', archive.id);
-    }
-  });
+ 
+  setTimeout(() => { 
+    opentok.startArchive(app.get('sessionId2'), function (
+      err,
+      archive
+    ) {
+      if (err) {
+        return console.log(err);
+      } else {
+        console.log("new archive:" + archive.id);
+        app.set('archiveId2', archive.id);
+      }
+    }) }, 5000);
   res.redirect(host_link);
 })
 
