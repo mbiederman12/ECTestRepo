@@ -3,7 +3,6 @@ import '../style/Controls.css';
 import ControlsClass from './ControlsClass';
 
 
-
 function ControlsPage(){
     return(
         <div className="Controls">

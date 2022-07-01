@@ -12,12 +12,10 @@ export default class Stream extends React.Component {
         console.error('Failed to get session creddentials', err);
         alert('Failed to get opentok sessionId and token');
       });
-      
   }
   
   constructor(props) {
     super(props);
-    
     
     this.state = {
       error: null,
@@ -27,7 +25,6 @@ export default class Stream extends React.Component {
       sessionId:"",
       token:"",
     };
-    
 
     this.sessionEventHandlers = {
       sessionConnected: () => {
@@ -67,9 +64,6 @@ export default class Stream extends React.Component {
     this.componentDidMount();
   }
 
-  
-
-
 
   onSessionError = error => {
     this.setState({ error });
@@ -97,9 +91,7 @@ export default class Stream extends React.Component {
     }));
   };
 
-
-
-
+  
   render(){
     
     const { apiKey, sessionId, token, publishVideo } = this.state;
@@ -132,7 +124,7 @@ export default class Stream extends React.Component {
             <OTStreams>
               
               <OTSubscriber
-                properties={{ width: 1100, height: 600 }}
+                properties={{ width: 850, height: 475 }}
                 onSubscribe={this.onSubscribe}
                 onError={this.onSubscribeError}
                 eventHandlers={this.subscriberEventHandlers}
