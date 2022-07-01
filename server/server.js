@@ -13,8 +13,8 @@ const app = express()
 var host_link = 'http://localhost:3000/';
 
 // Project API INFO
-const apiKey = YOUR_API_KEY;
-const apiSecret = YOUR_API_SECRET;
+const apiKey = '47525941';
+const apiSecret = '09af2fe51e43af6d2a88cec485dcd01c40039991';
 
 
 // Create JWT using opentok-jwt sdk to create a token for the header X-OPENTOK-AUTH in https request
@@ -125,7 +125,7 @@ app.post('/store-data',(req, res) => {
   const options = {
     hostname: 'api.opentok.com',
     port: 443,
-    path: '/v2/project/'+ (YOUR_API_KEY)+'/render',
+    path: '/v2/project/47525941/render',
     method: 'POST',
     headers: {
       'X-OPENTOK-AUTH':(projectJWT),
@@ -209,7 +209,7 @@ app.post('/startArchivingEC', function(req, res){
   const options = {
     hostname: 'api.opentok.com',
     port: 443,
-    path: '/v2/project/'+YOUR_API_KEY+'/render',
+    path: '/v2/project/47525941/render',
     method: 'POST',
     headers: {
       'X-OPENTOK-AUTH':(projectJWT),
