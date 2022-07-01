@@ -13,8 +13,8 @@ const app = express()
 var host_link = 'http://localhost:3000/';
 
 // Project API INFO
-const apiKey = "47525941";
-const apiSecret = "09af2fe51e43af6d2a88cec485dcd01c40039991";
+const apiKey = YOUR_API_KEY;
+const apiSecret = YOUR_API_SECRET;
 
 
 // Create JWT using opentok-jwt sdk to create a token for the header X-OPENTOK-AUTH in https request
