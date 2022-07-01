@@ -125,7 +125,7 @@ app.post('/store-data',(req, res) => {
   const options = {
     hostname: 'api.opentok.com',
     port: 443,
-    path: '/v2/project/47525941/render',
+    path: '/v2/project/'+ (YOUR_API_KEY)+'/render',
     method: 'POST',
     headers: {
       'X-OPENTOK-AUTH':(projectJWT),
@@ -209,7 +209,7 @@ app.post('/startArchivingEC', function(req, res){
   const options = {
     hostname: 'api.opentok.com',
     port: 443,
-    path: '/v2/project/47525941/render',
+    path: '/v2/project/'+YOUR_API_KEY+'/render',
     method: 'POST',
     headers: {
       'X-OPENTOK-AUTH':(projectJWT),
