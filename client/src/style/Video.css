@@ -15,11 +15,8 @@
 }
 
 .OT_subscriber {
-  flex-direction: column;
-  position: absolute;
-  left: 120px;
-  bottom: center;
-  z-index: 50;
+  left: 90px;
+  padding: 40px;
 }
 
 .videoButton{
@@ -33,6 +30,7 @@
   position: absolute;
   top: 20px;
   left: 20px;
+  padding:10px;
   z-index: 100;
 }
 

@@ -14,7 +14,7 @@ export default class ControlsClass extends React.Component {
     handleSubmit = (event) => {
         alert('EC URL Submitted');
     
-        fetch('http://localhost:3001/store-data', {
+        fetch('https://gamerecsampleapp.herokuapp.com/store-data', {
             method: 'POST',
             headers:{
                 'Content-type':'application/json'
@@ -31,11 +31,11 @@ export default class ControlsClass extends React.Component {
         return (
           <div>
               <h3>Archiving Features</h3>
-                <form action="http://localhost:3001/start" method ="POST">
+                <form action="https://gamerecsampleapp.herokuapp.com/start" method ="POST">
                     <input type="submit" value="Start Archiving Session"></input>
                 </form>
                 <p></p>
-                <form action="http://localhost:3001/stop" method="POST">
+                <form action="https://gamerecsampleapp.herokuapp.com/stop" method="POST">
                     <input type="submit" value="Stop Archiving Session"></input>
                 </form>
                 <p></p>
@@ -52,15 +52,15 @@ export default class ControlsClass extends React.Component {
                     <input type="submit" value="Submit" />
                 </form>
                 <p></p>
-                <form action="http://localhost:3001/stopEC" method = 'GET'>
+                <form action="https://gamerecsampleapp.herokuapp.com/stopEC" method = 'GET'>
                     <input type="submit" value="Stop EC"></input>
                 </form>
                 <p></p>
-                <form action="http://localhost:3001/startArchivingEC" method ="POST">
+                <form action="https://gamerecsampleapp.herokuapp.com/startArchivingEC" method ="POST">
                     <input type="submit" value="Start Archiving EC"></input>
                 </form>
                 <p></p>
-                <form action="http://localhost:3001/stopArchivingEC" method="POST">
+                <form action="https://gamerecsampleapp.herokuapp.com/stopArchivingEC" method="POST">
                     <input type="submit" value="Stop Archiving EC"></input>
                 </form>
           </div>

@@ -1,10 +1,10 @@
 # Experience Composer Gamer Stream Sample Web Application
 
-This sample application utilizes Vonage's Experience Composer. It is designed for a video game streamer to join an OpenTok session. Then the player will send the URL of their livestream to the server. By doing this, the streamer will act as the publisher with their video camera in the top left corner, and the Experience Composer stream will act as the subscriber which is displayed in the center.
+The sample application allows a video game streamer to join an OpenTok session and send the URL of their livestream to be used as host for the Experience Composer. This allows the streamer to act as the publisher with their video in the top left corner, and the livestream to be published in the center via Experience Composer. 
 
 <img alt="Main Page of Sample Application" src="screenshots/mainpage.png" />
 
-In order to archive the web application including its CSS elements and layout in my sample app, a new session and new Experience Composer will need to be created by pressing the Start Archive EC button. This new Experience Composer will be directed to the URL of my website. The Experience Composer will subscribe to the new session which is being archived and can be accessed in the View Past Archives tab.
+In order to archive the web application including its CSS elements and layout, a new session and Experience Composer will need to be created by pressing the Start Archiving EC button. This new Experience Composer will subscribe to the original session and publish to the new session which will be archived and visible in the View Past Archives tab. 
 
 ## Local Installation
 1. Clone the repository
