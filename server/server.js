@@ -10,11 +10,11 @@ const { projectToken } = require('opentok-jwt');
 const app = express()
 
 // Link to Client Side for EC, needs to be publicly accessible (Could deploy to Heroku)
-var host_link = 'https://gamerecsampleapp.herokuapp.com/';
+//var host_link = 'https://gamerecsampleapp.herokuapp.com/';
 
 // Project API INFO
-const apiKey = YOUR_API_KEY;
-const apiSecret = YOUR_API_SECRET;
+const apiKey = '70693001';
+const apiSecret = '12ff43d0bac4b7d3f2920f8f0fc6fbab2762187a';
 
 
 // Create JWT using opentok-jwt sdk to create a token for the header X-OPENTOK-AUTH in https request
@@ -29,10 +29,7 @@ app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname+"/public")))
 
 // Create Session & Store SessionID in Express App
-opentok.createSession({mediaMode:"routed"},function (err, session) {
-  if (err) return console.log(err);
-  app.set('sessionId', session.sessionId);
-});
+app.set('sessionId', '1_MX43MDY5MzAwMX5-MTY1Nzc0OTA1MjExNn5OU2U2NXFKZm4xRDl1SU5rcWg5c2hIYkJ-fg');
 
 // Server is running on http://localhost:3001/
 app.listen(process.env.PORT || 3001, function () {
@@ -40,11 +37,7 @@ app.listen(process.env.PORT || 3001, function () {
 });
 
 //Create Second OpenTok Session for EC Archiving
-opentok.createSession({mediaMode:"routed"},function (err, sessionECArchive) {
-  if (err) return console.log(err);
-  app.set('sessionIdECArchive', sessionECArchive.sessionId);
-  
-});
+app.set('sessionId', '2_MX43MDY5MzAwMX5-MTY1Nzc0OTA4NTU2N340MHloL0pEa3VaYjlBU1BxdStIcWd2Z1R-fg');
 
 // GET request made from client to server to retrieve apiKey, sessionId, and token data
 app.get('/api', (req, res) => {
@@ -124,9 +117,9 @@ app.post('/store-data',(req, res) => {
   });
   // HTTP request header parameter
   const options = {
-    hostname: 'api.opentok.com',
+    hostname: 'api.dev.opentok.com',
     port: 443,
-    path: '/v2/project/'+YOUR_API_KEY+'/render',
+    path: '/v2/project/70693001/render',
     method: 'POST',
     headers: {
       'X-OPENTOK-AUTH':(projectJWT),
@@ -171,9 +164,9 @@ app.get('/stopEC', (req, res)=>{
     "token": (app.get('token')),
 });
   const options = {
-    hostname: 'api.opentok.com',
+    hostname: 'api.dev.opentok.com',
     port: 443,
-    path: `/v2/project/`+YOUR_API_KEY+`/render/` + String(ECID),
+    path: `/v2/project/70693001/render/` + String(ECID),
     method: 'DELETE',
     headers: {
       'X-OPENTOK-AUTH':(projectJWT),
@@ -194,16 +187,7 @@ app.get('/stopEC', (req, res)=>{
 
 // HTTP POST request with new session and token to create a new Experience Composer to archive the Entire Website's layout
 app.post('/startArchivingEC', function(req, res){
-  /*if (token == null)
-  {
-    var option ={
-      expireTime: new Date().getTime() / 1000 + 7 * 24 * 60 * 60, // expires in a week from today
-    };
   
-    // Generate a Token from the sessionId (options expireTime allows the token to be accessable for a week)
-    var token = opentok.generateToken(app.get('sessionIdECArchive'), option);
-    app.set('tokenECArchive', token);
-  }*/
   var ECIDArchive = '';
 
   const data = JSON.stringify({
@@ -218,9 +202,9 @@ app.post('/startArchivingEC', function(req, res){
   });
 
   const options = {
-    hostname: 'api.opentok.com',
+    hostname: 'api.dev.opentok.com',
     port: 443,
-    path: '/v2/project/'+YOUR_API_KEY+'/render',
+    path: '/v2/project/70693001/render',
     method: 'POST',
     headers: {
       'X-OPENTOK-AUTH':(projectJWT),
@@ -277,9 +261,9 @@ app.post('/stopArchivingEC', function(req, res){
     "token": (app.get('tokenECArchive')),
 });
   const options = {
-    hostname: 'api.opentok.com',
+    hostname: 'api.dev.opentok.com',
     port: 443,
-    path: `/v2/project/`+YOUR_API_KEY+`/render/` + String(ECIDArchive),
+    path: `/v2/project/70693001/render/` + String(ECIDArchive),
     method: 'DELETE',
     headers: {
       'X-OPENTOK-AUTH':(projectJWT),
