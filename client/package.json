@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "proxy": "https://gamerecsampleapp.herokuapp.com/",
+  "proxy": "https://ecsampletest.herokuapp.com/",
   "private": true,
   "dependencies": {
     "@table-library/react-table-library": "^3.1.5",

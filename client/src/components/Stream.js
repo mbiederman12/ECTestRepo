@@ -5,7 +5,7 @@ import { OTSession, OTPublisher, OTStreams, OTSubscriber } from 'opentok-react';
 
 export default class Stream extends React.Component {
   componentDidMount(){
-    fetch("https://gamerecsampleapp.herokuapp.com/api")
+    fetch("https://ecsampletest.herokuapp.com/api")
       .then((res) => res.json())
       .then((data) => this.setState({apiKey:data.apiKey, sessionId:data.sessionId, token:data.token}))
       .catch((err) => {
